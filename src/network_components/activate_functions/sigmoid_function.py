@@ -8,4 +8,4 @@ class Sigmoid(object):
 
     @staticmethod
     def prime(z):
-        return Sigmoid.func(z)*(1.0-Sigmoid.func(z))
+        return Sigmoid.func(z) * (1 - Sigmoid.func(z))
