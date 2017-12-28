@@ -7,6 +7,7 @@ this module used to load data form MNIST image data.
 import gzip
 import pickle
 import time
+import timeit
 #  third-party libraries
 import numpy as np
 
@@ -24,6 +25,7 @@ this  math change tuple data into numpy ndarray
 
 
 def load_data():
+    start_time = timeit.default_timer()
     tr_data, vl_data, ts_data = load_original_data()
     training_inputs = [np.reshape(x, (784, 1)) for x in tr_data[0]]
     training_results = [get_vertical_result(y) for y in tr_data[1]]
@@ -34,7 +36,8 @@ def load_data():
     test_inputs = [np.reshape(x, (784, 1)) for x in ts_data[0]]
     test_results = ts_data[1]
     test_data = list(zip(test_inputs, test_results))
-    print('load data use: %.3f seconds' % time.process_time())
+    elapsed = timeit.default_timer() - start_time
+    print('load data use: %.3f seconds' % elapsed)
     return training_data, validation_data, test_data
 
 

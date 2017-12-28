@@ -8,5 +8,5 @@ class QuadraticFunction(object):
         return 0.5*np.linalg.norm(a-y)**2
 
     @staticmethod
-    def output_delta(a, y, z):
-        return (a-y)*Sigmoid.prime(z)
+    def output_delta(z, a, y):
+        return (a-y) * Sigmoid.prime(z)

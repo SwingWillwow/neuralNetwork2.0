@@ -7,7 +7,7 @@ import numpy as np
 from network_components.cost_functions.cross_entropy_function import CrossEntropyFunction
 from network_components.cost_functions.quadratic_function import QuadraticFunction
 from network_components.activate_functions.sigmoid_function import Sigmoid
-
+import timeit
 
 class Network(object):
     def __init__(self, layer, cost_function=CrossEntropyFunction):
@@ -71,9 +71,11 @@ class Network(object):
               monitor_evaluate_accuracy=False,
               monitor_training_cost=False,
               monitor_training_accuracy=False,
+              monitor_error_rate=False,
               early_stopping_n=0):
-        best_accuracy =0
-        no_accuracy_change=0
+        start_time = timeit.default_timer()
+        best_accuracy = 0
+        no_accuracy_change = 0
         evaluate_cost, evaluate_accuracy = [], []
         training_cost, training_accuracy = [], []
         training_data_len = len(training_data)
@@ -102,6 +104,8 @@ class Network(object):
                 accuracy = self.get_accuracy(training_data, True)
                 training_accuracy.append(accuracy)
                 print("accuracy in training data: {} / {}".format(accuracy, training_data_len))
+            if monitor_error_rate:
+                pass
             if early_stopping_n > 0:
                 if accuracy > best_accuracy:
                     best_accuracy = accuracy
@@ -112,7 +116,8 @@ class Network(object):
                     print("Early stopping: no accuracy change in last {} epochs".format(early_stopping_n))
                     return evaluate_cost, evaluate_accuracy, training_cost, training_accuracy
         print()
-        print(change_time(time.process_time()))
+        elasped = timeit.default_timer() - start_time
+        print("train use " + change_time(elasped))
         return evaluate_cost, evaluate_accuracy, training_cost, training_accuracy
 
     def get_accuracy(self, data, convert=False):
