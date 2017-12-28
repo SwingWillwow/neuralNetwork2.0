@@ -78,7 +78,7 @@ def get_accuracy_pic(accuracy):
     ax.grid(True)
     ax.set_xlabel('Epoch')
     ax.set_title('accuracy on the evaluate data')
-    f = open("../data/accuracy_pic_auto_encoder.jpg", "w")
+    f = open("../data/accuracy_pic_auto_encoder_2.jpg", "w")
     plt.savefig(f, format='jpg')
     plt.show()
 
@@ -92,15 +92,15 @@ def get_cost_pic(cost):
     ax.grid(True)
     ax.set_xlabel('Epoch')
     ax.set_title('Cost on the evaluate data')
-    f = open("../data/cost_pic._auto_encoder.jpg", "w")
+    f = open("../data/cost_pic_auto_encoder_2.jpg", "w")
     plt.savefig(f, format='jpg')
     plt.show()
 
 
 train_data, valid_data = get_data()
-net = Network([784, 50, 784])
+net = Network([784, 50, 784],cost_function= QuadraticFunction)
 net.train(train_data, 100, 30, 0.25, 5, valid_data)
-net.save("../data/"+str(datetime.date.today())+"_auto_encoder"+".json")
+net.save("../data/"+str(datetime.date.today())+"_auto_encoder_2"+".json")
 
 
 # net = load("../data/2017-12-28.json")
@@ -121,7 +121,7 @@ net2 = Network([50, 100, 10])
 evaluate_cost, evaluate_accuracy, training_cost, training_accuracy = \
     net2.train(train_data, 200, 30, 0.1, 5, evaluate_data=evaluate_data, monitor_evaluate_cost=True,
                monitor_evaluate_accuracy=True)
-net.save("../data/"+str(datetime.date.today())+"auto_encoder_trained"+".json")
+net.save("../data/"+str(datetime.date.today())+"auto_encoder_trained_2"+".json")
 get_accuracy_pic(evaluate_accuracy)
 get_cost_pic(evaluate_cost)
 
