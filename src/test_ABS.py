@@ -75,8 +75,10 @@ def get_cost_pic(cost):
     plt.savefig(f, format='jpg')
     plt.show()
 
+
+os.chdir(os.getcwd() + '/src')
 training_data, validation_data, test_data = loader.load_data()
-net = Network([784, 100, 10],cost_function=QuadraticFunction)
+net = Network([784, 1000, 10], cost_function=QuadraticFunction)
 epochs = input('please input the epochs.')
 epochs = int(epochs)
 mini_batch_size = int(input('please input the mini_batch_size.'))
@@ -85,7 +87,7 @@ lamda = float(input('please input the regularization parameter.'))
 evaluate_cost, evaluate_accuracy, training_cost, training_accuracy = \
     net.train(training_data, epochs, mini_batch_size, eta, lamda, evaluate_data=validation_data,
               monitor_evaluate_cost=True, monitor_evaluate_accuracy=True)
-net.save("../data/"+str(datetime.date.today())+"_origin_without_l2"+".json")
+net.save("../data/"+str(datetime.date.today())+"_ABS"+".json")
 get_accuracy_pic(evaluate_accuracy)
 get_cost_pic(evaluate_cost)
 

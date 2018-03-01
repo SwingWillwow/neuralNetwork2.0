@@ -16,8 +16,10 @@ def centralized(data):
     centralized_data = data - mean_value
     return centralized_data, mean_value
     # normalization
-    # var_value = np.var(data, axis=0)
-    # tmp_data = np.nan_to_num(centralized_data / var_value)
+    # var_value = np.var(data, axis=1)
+    # standard_var_value = np.sqrt(var_value)
+    # standard_var_value = np.reshape(standard_var_value, (2, 1))
+    # tmp_data = np.nan_to_num(centralized_data / standard_var_value)
     # return tmp_data, mean_value
 
 
@@ -110,32 +112,32 @@ test_data = [
     [2.4, 0.7, 2.9, 2.2, 3.0, 2.7, 1.6, 1.1, 1.6, 0.9]
 ]
 
-# test_data = np.array(test_data)
-# centralized_data, mean = centralized(test_data)
-# W = pca_n(centralized_data, 1)
-# low_dim_data = np.dot(W.T, centralized_data)
-# print(low_dim_data)
+test_data = np.array(test_data)
+centralized_data, mean = centralized(test_data)
+W = pca_n(centralized_data, 1)
+low_dim_data = np.dot(W.T, centralized_data)
+print(low_dim_data)
 
 
-train_data, validation_data, t_data = load_data()
-train_input, train_target = zip(*train_data)
-evaluate_input, evaluate_target = zip(*validation_data)
-train_input_reshape = DAC_get_input_matrix(train_input)
-evaluate_input_reshape = DAC_get_input_matrix(evaluate_input)
-train_input_reshape, mean = centralized(train_input_reshape)
-W_1 = pca_n(train_input_reshape, 50)
-low_dim_data = np.dot(W_1.T, train_input_reshape)
-low_dim_data = np.array(low_dim_data)
-evaluate_input_reshape = evaluate_input_reshape - mean
-low_dim_evaluate_data = np.dot(W_1.T, evaluate_input_reshape)
-low_dim_input = get_Matrix_into_vectors(low_dim_data)
-low_dim_evaluate_input = get_Matrix_into_vectors(low_dim_evaluate_data)
-train_data = list(zip(low_dim_input, train_target))
-evaluate_data = list(zip(low_dim_evaluate_input, evaluate_target))
-net = Network([50, 100, 10])
-evaluate_cost, evaluate_accuracy, training_cost, training_accuracy = \
-    net.train(train_data, 200, 30, 0.1, 5, evaluate_data=evaluate_data, monitor_evaluate_cost=True,
-              monitor_evaluate_accuracy=True)
-net.save("../data/" + str(datetime.date.today()) + "PCA" + ".json")
-get_accuracy_pic(evaluate_accuracy)
-get_cost_pic(evaluate_cost)
+# train_data, validation_data, t_data = load_data()
+# train_input, train_target = zip(*train_data)
+# evaluate_input, evaluate_target = zip(*validation_data)
+# train_input_reshape = DAC_get_input_matrix(train_input)
+# evaluate_input_reshape = DAC_get_input_matrix(evaluate_input)
+# train_input_reshape, mean = centralized(train_input_reshape)
+# W_1 = pca_n(train_input_reshape, 50)
+# low_dim_data = np.dot(W_1.T, train_input_reshape)
+# low_dim_data = np.array(low_dim_data)
+# evaluate_input_reshape = evaluate_input_reshape - mean
+# low_dim_evaluate_data = np.dot(W_1.T, evaluate_input_reshape)
+# low_dim_input = get_Matrix_into_vectors(low_dim_data)
+# low_dim_evaluate_input = get_Matrix_into_vectors(low_dim_evaluate_data)
+# train_data = list(zip(low_dim_input, train_target))
+# evaluate_data = list(zip(low_dim_evaluate_input, evaluate_target))
+# net = Network([50, 100, 10])
+# evaluate_cost, evaluate_accuracy, training_cost, training_accuracy = \
+#     net.train(train_data, 200, 30, 0.1, 5, evaluate_data=evaluate_data, monitor_evaluate_cost=True,
+#               monitor_evaluate_accuracy=True)
+# net.save("../data/" + str(datetime.date.today()) + "PCA" + ".json")
+# get_accuracy_pic(evaluate_accuracy)
+# get_cost_pic(evaluate_cost)
